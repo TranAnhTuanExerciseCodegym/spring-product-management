@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.codegym.service.ProductService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -106,10 +107,11 @@ public class ProductController {
     }
 
     @PostMapping("/delete")
-    public void delete(
+    public String delete(
             @ModelAttribute("product") Product product,
             @RequestParam("id") Integer id,
-            HttpServletResponse response
+//            HttpServletResponse response
+            RedirectAttributes redirectAttributes
     ) {
         product = this.productService.findById(id);
         ModelAndView modelAndView;
@@ -117,12 +119,15 @@ public class ProductController {
             modelAndView = new ModelAndView("error");
         } else {
             this.productService.remove(id);
-            try {
-                response.sendRedirect("/products");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+            redirectAttributes.addFlashAttribute("message", "Deleted successfully");
+//                response.sendRedirect("/products");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            }
         }
+        return "redirect:/products";
     }
 
     @GetMapping("/view")

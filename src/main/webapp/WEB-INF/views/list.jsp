@@ -21,6 +21,11 @@
 <h1>List Product</h1>
 <h3 class="information">There are ${product.size()} product</h3>
 <a href="create">Create</a>
+<div class="information">
+    <c:if test="${message != null}">
+        ${message}
+    </c:if>
+</div>
 <fieldset>
     <legend><h2>List</h2></legend>
     <table border="1">
